@@ -1,139 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
 <meta charset="UTF-8">
-<title>Vantage Finance</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vantage</title>
 
 <style>
-
-/* -------- RESET -------- */
 
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
+font-family:Arial, Helvetica, sans-serif;
 }
-
-/* -------- BODY -------- */
 
 body{
-font-family:Arial, Helvetica, sans-serif;
-background:linear-gradient(135deg,#020617,#0f172a,#1e293b);
+height:100vh;
+background:linear-gradient(270deg,#0f172a,#020617,#1e293b);
+background-size:600% 600%;
+animation:bgMove 20s infinite;
 color:white;
-min-height:100vh;
 }
 
-/* -------- TOPBAR -------- */
-
-.topbar{
-height:70px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-padding:0 30px;
-background:rgba(0,0,0,0.5);
-border-bottom:1px solid #334155;
+@keyframes bgMove{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
 }
-
-.logo{
-font-size:24px;
-font-weight:bold;
-letter-spacing:1px;
-}
-
-/* -------- LAYOUT -------- */
-
-.layout{
-display:flex;
-height:calc(100vh - 70px);
-}
-
-/* -------- SIDEBAR -------- */
 
 .sidebar{
-width:240px;
+position:fixed;
+width:220px;
+height:100%;
 background:#020617;
-padding:20px;
-border-right:1px solid #334155;
+padding-top:40px;
 }
 
-.menu-item{
-padding:12px;
-margin-bottom:10px;
+.sidebar h1{
+text-align:center;
+margin-bottom:40px;
+}
+
+.sidebar a{
+display:block;
+padding:15px;
+color:white;
+text-decoration:none;
+transition:0.3s;
+}
+
+.sidebar a:hover{
 background:#1e293b;
-border-radius:8px;
-cursor:pointer;
-transition:0.2s;
 }
-
-.menu-item:hover{
-background:#334155;
-}
-
-/* -------- MAIN -------- */
 
 .main{
-flex:1;
-padding:30px;
-overflow:auto;
-}
-
-/* -------- CARDS -------- */
-
-.cards{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:20px;
-margin-bottom:30px;
+margin-left:220px;
+padding:40px;
 }
 
 .card{
 background:#1e293b;
 padding:20px;
 border-radius:10px;
-border:1px solid #334155;
+margin-bottom:20px;
+box-shadow:0 0 10px rgba(0,0,0,0.5);
 }
 
-.card h3{
-font-size:14px;
-color:#94a3b8;
-margin-bottom:10px;
-}
-
-.card p{
-font-size:26px;
-font-weight:bold;
-}
-
-/* -------- SECTIONS -------- */
-
-.section{
-display:none;
-background:#1e293b;
-padding:25px;
-border-radius:10px;
-border:1px solid #334155;
-margin-bottom:30px;
-}
-
-.section.active{
-display:block;
-}
-
-/* -------- INPUTS -------- */
-
-input{
+input,button,textarea{
 padding:10px;
-border-radius:6px;
-border:none;
 margin:5px;
+border:none;
+border-radius:6px;
 }
 
 button{
-padding:10px 15px;
 background:#3b82f6;
-border:none;
-border-radius:6px;
 color:white;
 cursor:pointer;
 }
@@ -142,168 +84,94 @@ button:hover{
 background:#2563eb;
 }
 
-/* -------- TABLE -------- */
-
 table{
 width:100%;
+margin-top:10px;
 border-collapse:collapse;
-margin-top:15px;
 }
 
 th,td{
 padding:10px;
 border-bottom:1px solid #334155;
-text-align:left;
 }
 
-/* -------- PROGRESS -------- */
-
-.progress{
-height:20px;
-background:#0f172a;
-border-radius:10px;
+.goalbar{
+width:100%;
+background:#334155;
+border-radius:20px;
 overflow:hidden;
 margin-top:10px;
 }
 
-.progress-bar{
-height:100%;
+.goalprogress{
+height:20px;
 background:#22c55e;
 width:0%;
 }
 
-/* -------- CHART -------- */
-
-canvas{
-background:#020617;
-border-radius:10px;
-padding:10px;
-margin-top:10px;
-}
-
 </style>
+
 </head>
 
 <body>
 
-<div class="topbar">
-
-<div class="logo">VANTAGE</div>
-
-<div>Finance Dashboard</div>
-
-</div>
-
-<div class="layout">
-
 <div class="sidebar">
 
-<div class="menu-item" onclick="show('dashboard')">Dashboard</div>
-<div class="menu-item" onclick="show('gastos')">Gastos</div>
-<div class="menu-item" onclick="show('presupuesto')">Presupuesto</div>
-<div class="menu-item" onclick="show('metas')">Metas</div>
-<div class="menu-item" onclick="show('stress')">Stress Diary</div>
+<h1>VANTAGE</h1>
+
+<a href="#">Dashboard</a>
+<a href="#">Gastos</a>
+<a href="#">Inversiones</a>
+<a href="#">Metas</a>
+<a href="#">Stress Diary</a>
 
 </div>
 
 <div class="main">
 
-<!-- DASHBOARD -->
-
-<div id="dashboard" class="section active">
-
-<div class="cards">
-
 <div class="card">
-<h3>Total Gastos</h3>
-<p id="total">$0</p>
-</div>
-
-<div class="card">
-<h3>Presupuesto</h3>
-<p id="presupuestoTotal">$0</p>
-</div>
-
-<div class="card">
-<h3>Metas</h3>
-<p id="metasCount">0</p>
-</div>
-
-<div class="card">
-<h3>Balance</h3>
-<p id="balance">$0</p>
-</div>
-
-</div>
-
-<canvas id="chart" width="400" height="200"></canvas>
-
-</div>
-
-<!-- GASTOS -->
-
-<div id="gastos" class="section">
-
 <h2>Agregar gasto</h2>
 
-<input id="categoria" placeholder="Categoría">
+<input id="nombre" placeholder="Concepto">
 <input id="cantidad" placeholder="Cantidad">
-
 <button onclick="agregarGasto()">Agregar</button>
 
 <table>
 
 <thead>
 <tr>
-<th>Categoría</th>
+<th>Concepto</th>
 <th>Cantidad</th>
 </tr>
 </thead>
 
-<tbody id="tablaGastos"></tbody>
+<tbody id="tablaGastos">
+</tbody>
 
 </table>
 
 </div>
 
-<!-- PRESUPUESTO -->
+<div class="card">
 
-<div id="presupuesto" class="section">
+<h2>Meta financiera</h2>
 
-<h2>Definir presupuesto</h2>
+<input id="metaTotal" placeholder="Meta total">
+<input id="metaActual" placeholder="Cantidad actual">
+<button onclick="actualizarMeta()">Actualizar</button>
 
-<input id="presupuestoInput" placeholder="Presupuesto mensual">
-
-<button onclick="guardarPresupuesto()">Guardar</button>
-
-<p id="presupuestoTexto"></p>
+<div class="goalbar">
+<div class="goalprogress" id="barra"></div>
+</div>
 
 </div>
 
-<!-- METAS -->
-
-<div id="metas" class="section">
-
-<h2>Crear meta</h2>
-
-<input id="metaNombre" placeholder="Nombre">
-<input id="metaCantidad" placeholder="Cantidad">
-
-<button onclick="crearMeta()">Crear</button>
-
-<div id="listaMetas"></div>
-
-</div>
-
-<!-- STRESS -->
-
-<div id="stress" class="section">
+<div class="card">
 
 <h2>Stress Diary</h2>
 
-<input id="estado" placeholder="Cómo te sientes hoy">
-
-<button onclick="guardarEstado()">Guardar</button>
+<textarea id="diario" rows="4" style="width:100%" placeholder="Escribe cómo te sientes..."></textarea>
+<button onclick="guardarDiario()">Guardar</button>
 
 <p id="mensaje"></p>
 
@@ -311,206 +179,60 @@ margin-top:10px;
 
 </div>
 
-</div>
-
 <script>
 
-/* -------- NAVEGACION -------- */
-
-function show(id){
-
-let sections=document.querySelectorAll(".section");
-
-sections.forEach(s=>s.classList.remove("active"));
-
-document.getElementById(id).classList.add("active");
-
-}
-
-/* -------- GASTOS -------- */
-
-let gastos=[];
-let total=0;
+let tabla = document.getElementById("tablaGastos")
 
 function agregarGasto(){
 
-let cat=document.getElementById("categoria").value;
+let nombre=document.getElementById("nombre").value
+let cantidad=document.getElementById("cantidad").value
 
-let cant=parseFloat(document.getElementById("cantidad").value);
+if(nombre==""||cantidad=="") return
 
-if(!cat||!cant)return;
+let fila=document.createElement("tr")
 
-gastos.push({cat,cant});
+fila.innerHTML="<td>"+nombre+"</td><td>$"+cantidad+"</td>"
 
-total+=cant;
+tabla.appendChild(fila)
 
-actualizar();
-
-guardar();
-
-}
-
-function actualizar(){
-
-let tabla=document.getElementById("tablaGastos");
-
-tabla.innerHTML="";
-
-gastos.forEach(g=>{
-
-tabla.innerHTML+=
-`<tr>
-<td>${g.cat}</td>
-<td>$${g.cant}</td>
-</tr>`;
-
-});
-
-document.getElementById("total").innerText="$"+total;
-
-dibujar();
+guardarDatos()
 
 }
 
-/* -------- PRESUPUESTO -------- */
+function guardarDatos(){
+localStorage.setItem("gastos",tabla.innerHTML)
+}
 
-let presupuesto=0;
+function cargarDatos(){
+let datos=localStorage.getItem("gastos")
+if(datos){
+tabla.innerHTML=datos
+}
+}
 
-function guardarPresupuesto(){
+function actualizarMeta(){
 
-presupuesto=parseFloat(
-document.getElementById("presupuestoInput").value
-);
+let total=document.getElementById("metaTotal").value
+let actual=document.getElementById("metaActual").value
 
-document.getElementById("presupuestoTexto").innerText=
-"Presupuesto: $"+presupuesto;
+let porcentaje=(actual/total)*100
 
-document.getElementById("presupuestoTotal").innerText=
-"$"+presupuesto;
-
-guardar();
+document.getElementById("barra").style.width=porcentaje+"%"
 
 }
 
-/* -------- METAS -------- */
+function guardarDiario(){
 
-let metas=[];
+let texto=document.getElementById("diario").value
 
-function crearMeta(){
+localStorage.setItem("stress",texto)
 
-let nombre=document.getElementById("metaNombre").value;
-
-let cant=parseFloat(
-document.getElementById("metaCantidad").value
-);
-
-metas.push({nombre,cant});
-
-renderMetas();
-
-guardar();
+document.getElementById("mensaje").innerText="Guardado"
 
 }
 
-function renderMetas(){
-
-let div=document.getElementById("listaMetas");
-
-div.innerHTML="";
-
-metas.forEach(m=>{
-
-div.innerHTML+=`
-<p>${m.nombre} - $${m.cant}</p>
-<div class="progress">
-<div class="progress-bar" style="width:10%"></div>
-</div>
-`;
-
-});
-
-document.getElementById("metasCount").innerText=metas.length;
-
-}
-
-/* -------- STRESS -------- */
-
-function guardarEstado(){
-
-let estado=document.getElementById("estado").value;
-
-document.getElementById("mensaje").innerText=
-"Guardado: "+estado;
-
-localStorage.setItem("estado",estado);
-
-}
-
-/* -------- GRAFICA -------- */
-
-function dibujar(){
-
-let canvas=document.getElementById("chart");
-
-let ctx=canvas.getContext("2d");
-
-ctx.clearRect(0,0,400,200);
-
-let x=10;
-
-gastos.forEach(g=>{
-
-let h=g.cant;
-
-ctx.fillStyle="#3b82f6";
-
-ctx.fillRect(x,200-h,30,h);
-
-x+=40;
-
-});
-
-}
-
-/* -------- STORAGE -------- */
-
-function guardar(){
-
-localStorage.setItem("gastos",JSON.stringify(gastos));
-
-localStorage.setItem("total",total);
-
-localStorage.setItem("presupuesto",presupuesto);
-
-localStorage.setItem("metas",JSON.stringify(metas));
-
-}
-
-function cargar(){
-
-let g=localStorage.getItem("gastos");
-
-if(g)gastos=JSON.parse(g);
-
-let t=localStorage.getItem("total");
-
-if(t)total=parseFloat(t);
-
-let p=localStorage.getItem("presupuesto");
-
-if(p)presupuesto=parseFloat(p);
-
-let m=localStorage.getItem("metas");
-
-if(m)metas=JSON.parse(m);
-
-actualizar();
-
-renderMetas();
-
-}
-
-window.onload=cargar;
+window.onload=cargarDatos
 
 </script>
 
