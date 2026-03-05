@@ -1,419 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vantage Finance</title>
-
-<style>
-
-/* RESET */
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial, Helvetica, sans-serif;
-}
-
-body{
-background:#0f172a;
-color:white;
-overflow-x:hidden;
-}
-
-/* PARTICLE BACKGROUND */
-
-#particles{
-position:fixed;
-width:100%;
-height:100%;
-top:0;
-left:0;
-z-index:-1;
-}
-
-/* NAVBAR */
-
-nav{
-display:flex;
-justify-content:space-between;
-padding:20px 60px;
-position:fixed;
-width:100%;
-background:rgba(0,0,0,0.4);
-backdrop-filter:blur(10px);
-}
-
-nav h1{
-font-size:22px;
-}
-
-nav a{
-margin-left:20px;
-text-decoration:none;
-color:white;
-}
-
-/* HERO */
-
-.hero{
-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-padding:40px;
-}
-
-.hero h2{
-font-size:60px;
-margin-bottom:20px;
-}
-
-.hero p{
-font-size:20px;
-max-width:600px;
-}
-
-button{
-margin-top:20px;
-padding:12px 25px;
-background:#3b82f6;
-border:none;
-border-radius:8px;
-color:white;
-cursor:pointer;
-}
-
-/* SECTIONS */
-
-.section{
-padding:100px 80px;
-}
-
-.features{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:30px;
-}
-
-.card{
-background:#1e293b;
-padding:30px;
-border-radius:15px;
-transition:0.3s;
-}
-
-.card:hover{
-transform:translateY(-10px);
-}
-
-/* DASHBOARD */
-
-.dashboard{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:30px;
-}
-
-.panel{
-background:#020617;
-padding:25px;
-border-radius:10px;
-}
-
-/* TABLE */
-
-table{
-width:100%;
-margin-top:15px;
-border-collapse:collapse;
-}
-
-th,td{
-padding:10px;
-border-bottom:1px solid #334155;
-}
-
-/* GOAL BAR */
-
-.goalbar{
-width:100%;
-height:20px;
-background:#334155;
-border-radius:20px;
-margin-top:10px;
-overflow:hidden;
-}
-
-.goalprogress{
-height:20px;
-background:#22c55e;
-width:0%;
-}
-
-/* FOOTER */
-
-footer{
-padding:40px;
-text-align:center;
-background:#020617;
-}
-
-input,textarea{
-width:100%;
-padding:10px;
-margin-top:10px;
-border-radius:6px;
-border:none;
-}
-
-</style>
+<title>Vantage</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<canvas id="particles"></canvas>
-
 <nav>
+
 <h1>VANTAGE</h1>
+
 <div>
-<a href="#">Home</a>
-<a href="#">Features</a>
-<a href="#">Finance</a>
+
+<a href="index.html">Home</a>
+<a href="expenses.html">Expenses</a>
+<a href="investments.html">Investments</a>
+<a href="goals.html">Goals</a>
+<a href="diary.html">Diary</a>
+
 </div>
+
 </nav>
+
 
 <section class="hero">
 
 <h2>Your Financial Vantage</h2>
 
-<p>
-Track expenses, manage investments and control financial stress in one platform.
-</p>
+<p>Manage money, investments and financial stress.</p>
 
-<button onclick="scrollToDashboard()">Open Dashboard</button>
+<div class="buttons">
+
+<a href="expenses.html"><button>Track Expenses</button></a>
+<a href="investments.html"><button>Investments</button></a>
+
+</div>
 
 </section>
 
-<section class="section">
 
-<h2 style="margin-bottom:40px;">Features</h2>
-
-<div class="features">
+<section class="features">
 
 <div class="card">
+
 <h3>Expense Tracking</h3>
-<p>Track every dollar and control spending.</p>
+
+<p>Control where your money goes.</p>
+
 </div>
 
 <div class="card">
-<h3>Investment Tracking</h3>
-<p>Follow portfolio growth.</p>
+
+<h3>Investment Monitor</h3>
+
+<p>Track portfolio growth.</p>
+
 </div>
 
 <div class="card">
+
 <h3>Financial Goals</h3>
-<p>Set savings targets.</p>
+
+<p>Create savings goals.</p>
+
 </div>
 
 <div class="card">
+
 <h3>Stress Diary</h3>
-<p>Write how finances affect you.</p>
-</div>
+
+<p>Track emotions around money.</p>
 
 </div>
 
 </section>
 
-<section class="section" id="dashboard">
-
-<h2 style="margin-bottom:40px;">Finance Dashboard</h2>
-
-<div class="dashboard">
-
-<div class="panel">
-
-<h3>Add Expense</h3>
-
-<input id="name" placeholder="Concept">
-
-<input id="amount" placeholder="Amount">
-
-<button onclick="addExpense()">Add</button>
-
-<table>
-
-<thead>
-<tr>
-<th>Concept</th>
-<th>Amount</th>
-</tr>
-</thead>
-
-<tbody id="expenseTable"></tbody>
-
-</table>
-
-</div>
-
-<div class="panel">
-
-<h3>Financial Goal</h3>
-
-<input id="goalTotal" placeholder="Goal Total">
-
-<input id="goalNow" placeholder="Current Amount">
-
-<button onclick="updateGoal()">Update</button>
-
-<div class="goalbar">
-<div class="goalprogress" id="progress"></div>
-</div>
-
-</div>
-
-<div class="panel">
-
-<h3>Stress Diary</h3>
-
-<textarea id="diary" rows="5"></textarea>
-
-<button onclick="saveDiary()">Save</button>
-
-<p id="saved"></p>
-
-</div>
-
-</div>
-
-</section>
 
 <footer>
 
-<p>© 2026 Vantage Finance</p>
+<p>Follow us on Instagram</p>
+
+<a href="https://instagram.com">Instagram</a>
 
 </footer>
-
-<script>
-
-/* SCROLL */
-
-function scrollToDashboard(){
-document.getElementById("dashboard").scrollIntoView({
-behavior:"smooth"
-})
-}
-
-/* EXPENSE SYSTEM */
-
-let table=document.getElementById("expenseTable")
-
-function addExpense(){
-
-let name=document.getElementById("name").value
-let amount=document.getElementById("amount").value
-
-if(name==""||amount=="") return
-
-let row=document.createElement("tr")
-
-row.innerHTML="<td>"+name+"</td><td>$"+amount+"</td>"
-
-table.appendChild(row)
-
-saveExpenses()
-
-}
-
-function saveExpenses(){
-localStorage.setItem("expenses",table.innerHTML)
-}
-
-function loadExpenses(){
-
-let data=localStorage.getItem("expenses")
-
-if(data){
-table.innerHTML=data
-}
-
-}
-
-/* GOALS */
-
-function updateGoal(){
-
-let total=document.getElementById("goalTotal").value
-let now=document.getElementById("goalNow").value
-
-let percent=(now/total)*100
-
-document.getElementById("progress").style.width=percent+"%"
-
-}
-
-/* DIARY */
-
-function saveDiary(){
-
-let text=document.getElementById("diary").value
-
-localStorage.setItem("diary",text)
-
-document.getElementById("saved").innerText="Saved"
-
-}
-
-/* PARTICLES */
-
-let canvas=document.getElementById("particles")
-let ctx=canvas.getContext("2d")
-
-canvas.width=window.innerWidth
-canvas.height=window.innerHeight
-
-let particles=[]
-
-for(let i=0;i<80;i++){
-
-particles.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*3+1,
-dx:(Math.random()-0.5),
-dy:(Math.random()-0.5)
-})
-
-}
-
-function draw(){
-
-ctx.clearRect(0,0,canvas.width,canvas.height)
-
-particles.forEach(p=>{
-
-ctx.beginPath()
-ctx.arc(p.x,p.y,p.r,0,Math.PI*2)
-ctx.fillStyle="white"
-ctx.fill()
-
-p.x+=p.dx
-p.y+=p.dy
-
-})
-
-requestAnimationFrame(draw)
-
-}
-
-draw()
-
-window.onload=loadExpenses
-
-</script>
 
 </body>
 </html>
