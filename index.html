@@ -2,15 +2,19 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Vantage Finance Dashboard</title>
+<title>Vantage Finance</title>
 
 <style>
+
+/* -------- RESET -------- */
 
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
 }
+
+/* -------- BODY -------- */
 
 body{
 font-family:Arial, Helvetica, sans-serif;
@@ -19,16 +23,15 @@ color:white;
 min-height:100vh;
 }
 
-/* TOP BAR */
+/* -------- TOPBAR -------- */
 
 .topbar{
 height:70px;
-background:rgba(0,0,0,0.4);
 display:flex;
 align-items:center;
 justify-content:space-between;
 padding:0 30px;
-backdrop-filter:blur(10px);
+background:rgba(0,0,0,0.5);
 border-bottom:1px solid #334155;
 }
 
@@ -38,47 +41,36 @@ font-weight:bold;
 letter-spacing:1px;
 }
 
-.user{
-background:#1e293b;
-padding:10px 15px;
-border-radius:8px;
-}
-
-/* LAYOUT */
+/* -------- LAYOUT -------- */
 
 .layout{
 display:flex;
 height:calc(100vh - 70px);
 }
 
-/* SIDEBAR */
+/* -------- SIDEBAR -------- */
 
 .sidebar{
-width:250px;
-background:rgba(2,6,23,0.7);
-border-right:1px solid #334155;
+width:240px;
+background:#020617;
 padding:20px;
-}
-
-.menu{
-margin-top:20px;
+border-right:1px solid #334155;
 }
 
 .menu-item{
 padding:12px;
 margin-bottom:10px;
-border-radius:8px;
 background:#1e293b;
+border-radius:8px;
 cursor:pointer;
-transition:0.3s;
+transition:0.2s;
 }
 
 .menu-item:hover{
 background:#334155;
-transform:translateX(5px);
 }
 
-/* MAIN */
+/* -------- MAIN -------- */
 
 .main{
 flex:1;
@@ -86,7 +78,7 @@ padding:30px;
 overflow:auto;
 }
 
-/* CARDS */
+/* -------- CARDS -------- */
 
 .cards{
 display:grid;
@@ -96,47 +88,52 @@ margin-bottom:30px;
 }
 
 .card{
-background:rgba(30,41,59,0.8);
+background:#1e293b;
 padding:20px;
-border-radius:12px;
+border-radius:10px;
 border:1px solid #334155;
 }
 
 .card h3{
-font-size:16px;
-margin-bottom:10px;
+font-size:14px;
 color:#94a3b8;
+margin-bottom:10px;
 }
 
 .card p{
-font-size:28px;
+font-size:26px;
 font-weight:bold;
 }
 
-/* SECTION */
+/* -------- SECTIONS -------- */
 
 .section{
-background:rgba(30,41,59,0.8);
+display:none;
+background:#1e293b;
 padding:25px;
-border-radius:12px;
+border-radius:10px;
 border:1px solid #334155;
 margin-bottom:30px;
 }
 
-/* INPUTS */
+.section.active{
+display:block;
+}
+
+/* -------- INPUTS -------- */
 
 input{
 padding:10px;
-margin:5px;
 border-radius:6px;
 border:none;
+margin:5px;
 }
 
 button{
 padding:10px 15px;
+background:#3b82f6;
 border:none;
 border-radius:6px;
-background:#3b82f6;
 color:white;
 cursor:pointer;
 }
@@ -145,18 +142,43 @@ button:hover{
 background:#2563eb;
 }
 
-/* TABLE */
+/* -------- TABLE -------- */
 
 table{
 width:100%;
-margin-top:15px;
 border-collapse:collapse;
+margin-top:15px;
 }
 
 th,td{
 padding:10px;
 border-bottom:1px solid #334155;
 text-align:left;
+}
+
+/* -------- PROGRESS -------- */
+
+.progress{
+height:20px;
+background:#0f172a;
+border-radius:10px;
+overflow:hidden;
+margin-top:10px;
+}
+
+.progress-bar{
+height:100%;
+background:#22c55e;
+width:0%;
+}
+
+/* -------- CHART -------- */
+
+canvas{
+background:#020617;
+border-radius:10px;
+padding:10px;
+margin-top:10px;
 }
 
 </style>
@@ -168,7 +190,7 @@ text-align:left;
 
 <div class="logo">VANTAGE</div>
 
-<div class="user">Dashboard</div>
+<div>Finance Dashboard</div>
 
 </div>
 
@@ -176,49 +198,53 @@ text-align:left;
 
 <div class="sidebar">
 
-<h2>Menu</h2>
-
-<div class="menu">
-
-<div class="menu-item">💰 Gastos</div>
-<div class="menu-item">📈 Inversiones</div>
-<div class="menu-item">🧾 Presupuesto</div>
-<div class="menu-item">🎯 Metas</div>
-<div class="menu-item">🧠 Stress Diary</div>
-
-</div>
+<div class="menu-item" onclick="show('dashboard')">Dashboard</div>
+<div class="menu-item" onclick="show('gastos')">Gastos</div>
+<div class="menu-item" onclick="show('presupuesto')">Presupuesto</div>
+<div class="menu-item" onclick="show('metas')">Metas</div>
+<div class="menu-item" onclick="show('stress')">Stress Diary</div>
 
 </div>
 
 <div class="main">
 
+<!-- DASHBOARD -->
+
+<div id="dashboard" class="section active">
+
 <div class="cards">
 
 <div class="card">
 <h3>Total Gastos</h3>
-<p id="totalGastos">$0</p>
+<p id="total">$0</p>
 </div>
 
 <div class="card">
-<h3>Portafolio</h3>
-<p>$0</p>
+<h3>Presupuesto</h3>
+<p id="presupuestoTotal">$0</p>
 </div>
 
 <div class="card">
-<h3>Metas activas</h3>
-<p>0</p>
+<h3>Metas</h3>
+<p id="metasCount">0</p>
 </div>
 
 <div class="card">
 <h3>Balance</h3>
-<p>$0</p>
+<p id="balance">$0</p>
 </div>
 
 </div>
 
-<div class="section">
+<canvas id="chart" width="400" height="200"></canvas>
 
-<h2>Agregar Gasto</h2>
+</div>
+
+<!-- GASTOS -->
+
+<div id="gastos" class="section">
+
+<h2>Agregar gasto</h2>
 
 <input id="categoria" placeholder="Categoría">
 <input id="cantidad" placeholder="Cantidad">
@@ -228,23 +254,50 @@ text-align:left;
 <table>
 
 <thead>
-
 <tr>
 <th>Categoría</th>
 <th>Cantidad</th>
 </tr>
-
 </thead>
 
-<tbody id="tablaGastos">
-
-</tbody>
+<tbody id="tablaGastos"></tbody>
 
 </table>
 
 </div>
 
-<div class="section">
+<!-- PRESUPUESTO -->
+
+<div id="presupuesto" class="section">
+
+<h2>Definir presupuesto</h2>
+
+<input id="presupuestoInput" placeholder="Presupuesto mensual">
+
+<button onclick="guardarPresupuesto()">Guardar</button>
+
+<p id="presupuestoTexto"></p>
+
+</div>
+
+<!-- METAS -->
+
+<div id="metas" class="section">
+
+<h2>Crear meta</h2>
+
+<input id="metaNombre" placeholder="Nombre">
+<input id="metaCantidad" placeholder="Cantidad">
+
+<button onclick="crearMeta()">Crear</button>
+
+<div id="listaMetas"></div>
+
+</div>
+
+<!-- STRESS -->
+
+<div id="stress" class="section">
 
 <h2>Stress Diary</h2>
 
@@ -252,7 +305,7 @@ text-align:left;
 
 <button onclick="guardarEstado()">Guardar</button>
 
-<p id="estadoGuardado"></p>
+<p id="mensaje"></p>
 
 </div>
 
@@ -262,42 +315,202 @@ text-align:left;
 
 <script>
 
-let total = 0;
+/* -------- NAVEGACION -------- */
+
+function show(id){
+
+let sections=document.querySelectorAll(".section");
+
+sections.forEach(s=>s.classList.remove("active"));
+
+document.getElementById(id).classList.add("active");
+
+}
+
+/* -------- GASTOS -------- */
+
+let gastos=[];
+let total=0;
 
 function agregarGasto(){
 
-let categoria = document.getElementById("categoria").value;
+let cat=document.getElementById("categoria").value;
 
-let cantidad = parseFloat(
-document.getElementById("cantidad").value
-);
+let cant=parseFloat(document.getElementById("cantidad").value);
 
-if(!categoria || !cantidad) return;
+if(!cat||!cant)return;
 
-let tabla = document.getElementById("tablaGastos");
+gastos.push({cat,cant});
 
-let fila = `<tr>
-<td>${categoria}</td>
-<td>$${cantidad}</td>
-</tr>`;
+total+=cant;
 
-tabla.innerHTML += fila;
+actualizar();
 
-total += cantidad;
-
-document.getElementById("totalGastos").innerText =
-"$" + total;
+guardar();
 
 }
+
+function actualizar(){
+
+let tabla=document.getElementById("tablaGastos");
+
+tabla.innerHTML="";
+
+gastos.forEach(g=>{
+
+tabla.innerHTML+=
+`<tr>
+<td>${g.cat}</td>
+<td>$${g.cant}</td>
+</tr>`;
+
+});
+
+document.getElementById("total").innerText="$"+total;
+
+dibujar();
+
+}
+
+/* -------- PRESUPUESTO -------- */
+
+let presupuesto=0;
+
+function guardarPresupuesto(){
+
+presupuesto=parseFloat(
+document.getElementById("presupuestoInput").value
+);
+
+document.getElementById("presupuestoTexto").innerText=
+"Presupuesto: $"+presupuesto;
+
+document.getElementById("presupuestoTotal").innerText=
+"$"+presupuesto;
+
+guardar();
+
+}
+
+/* -------- METAS -------- */
+
+let metas=[];
+
+function crearMeta(){
+
+let nombre=document.getElementById("metaNombre").value;
+
+let cant=parseFloat(
+document.getElementById("metaCantidad").value
+);
+
+metas.push({nombre,cant});
+
+renderMetas();
+
+guardar();
+
+}
+
+function renderMetas(){
+
+let div=document.getElementById("listaMetas");
+
+div.innerHTML="";
+
+metas.forEach(m=>{
+
+div.innerHTML+=`
+<p>${m.nombre} - $${m.cant}</p>
+<div class="progress">
+<div class="progress-bar" style="width:10%"></div>
+</div>
+`;
+
+});
+
+document.getElementById("metasCount").innerText=metas.length;
+
+}
+
+/* -------- STRESS -------- */
 
 function guardarEstado(){
 
-let estado = document.getElementById("estado").value;
+let estado=document.getElementById("estado").value;
 
-document.getElementById("estadoGuardado").innerText =
-"Estado guardado: " + estado;
+document.getElementById("mensaje").innerText=
+"Guardado: "+estado;
+
+localStorage.setItem("estado",estado);
 
 }
+
+/* -------- GRAFICA -------- */
+
+function dibujar(){
+
+let canvas=document.getElementById("chart");
+
+let ctx=canvas.getContext("2d");
+
+ctx.clearRect(0,0,400,200);
+
+let x=10;
+
+gastos.forEach(g=>{
+
+let h=g.cant;
+
+ctx.fillStyle="#3b82f6";
+
+ctx.fillRect(x,200-h,30,h);
+
+x+=40;
+
+});
+
+}
+
+/* -------- STORAGE -------- */
+
+function guardar(){
+
+localStorage.setItem("gastos",JSON.stringify(gastos));
+
+localStorage.setItem("total",total);
+
+localStorage.setItem("presupuesto",presupuesto);
+
+localStorage.setItem("metas",JSON.stringify(metas));
+
+}
+
+function cargar(){
+
+let g=localStorage.getItem("gastos");
+
+if(g)gastos=JSON.parse(g);
+
+let t=localStorage.getItem("total");
+
+if(t)total=parseFloat(t);
+
+let p=localStorage.getItem("presupuesto");
+
+if(p)presupuesto=parseFloat(p);
+
+let m=localStorage.getItem("metas");
+
+if(m)metas=JSON.parse(m);
+
+actualizar();
+
+renderMetas();
+
+}
+
+window.onload=cargar;
 
 </script>
 
